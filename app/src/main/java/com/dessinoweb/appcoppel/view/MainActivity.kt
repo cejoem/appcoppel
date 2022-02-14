@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     lateinit var viewModel: MainViewModel
-     var cont:Int = 20
+     var cont:Int = 0
 
     val adapter=MainAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1) && dy > 0) {
                     Log.d("SCROLL_A","ABAJO${recyclerView.adapter?.itemCount}")
-                    cont= recyclerView.adapter?.itemCount!! +20
+                    cont= recyclerView.adapter?.itemCount!! +10
                     viewModel.getCharacters(cont)
                 } else if (!recyclerView.canScrollVertically(-1) && dy < 0) {
                     Log.d("SCROLL_B","ARRIBA")
