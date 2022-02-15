@@ -42,7 +42,7 @@ class HeroActivity : AppCompatActivity() {
         binding.imageview
 
 
-        Log.d("PARA_ID", "${id}")
+        Log.d("PARAMETER_ID", "${id}")
 
         viewModel = ViewModelProvider(this).get(HeroViewModel::class.java)
 
