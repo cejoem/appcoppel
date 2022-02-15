@@ -55,8 +55,16 @@ class HeroActivity : AppCompatActivity() {
                 viewModel.getDetailHero(id!!.toInt())
             }
         }
+        /*
+            val success1=async(Dispatchers.IO){
+                viewModel.getDetailHero(id!!.toInt())
+            }
+            val success2=async(Dispatchers.IO){
+                viewModel.getDetailHero(id!!.toInt())
+            }
+            myfuncion(success1.await(),success2,await())
 
-
+        */
     }
     fun setDetailHero(hero:List<Character>){
         Glide.with(this).load(
