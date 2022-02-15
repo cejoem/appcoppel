@@ -5,11 +5,15 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.dessinoweb.appcoppel.R
 import com.dessinoweb.appcoppel.adapter.MainAdapter
 import com.dessinoweb.appcoppel.databinding.ActivityMainBinding
 import com.dessinoweb.appcoppel.viewmodel.MainViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +40,13 @@ class MainActivity : AppCompatActivity() {
                 if (!recyclerView.canScrollVertically(1) && dy > 0) {
                     Log.d("SCROLL_A","ABAJO${recyclerView.adapter?.itemCount}")
                     cont= recyclerView.adapter?.itemCount!! +10
-                    viewModel.getCharacters(cont)
+
+                    lifecycleScope.launch{
+                        withContext(Dispatchers.IO){
+                            viewModel.getCharacters(cont)
+                        }
+                    }
+
                 } else if (!recyclerView.canScrollVertically(-1) && dy < 0) {
                     Log.d("SCROLL_B","ARRIBA")
                 }
@@ -50,7 +60,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.errorMessage.observe(this, Observer{
             Log.d("ERROR_OBSERVE","On Observe $it")
         })
-        viewModel.getCharacters(20)
+
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO){
+                viewModel.getCharacters(20)
+            }
+        }
+
 
         //serviceMarvel=api.createService(ServiceMarvel::class.java)
 

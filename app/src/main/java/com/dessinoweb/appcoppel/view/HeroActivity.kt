@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.dessinoweb.appcoppel.R
 import com.dessinoweb.appcoppel.databinding.ActivityHeroBinding
@@ -11,6 +12,9 @@ import com.dessinoweb.appcoppel.databinding.ActivityMainBinding
 import com.dessinoweb.appcoppel.model.Character
 import com.dessinoweb.appcoppel.viewmodel.HeroViewModel
 import com.dessinoweb.appcoppel.viewmodel.MainViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HeroActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
@@ -28,7 +32,7 @@ class HeroActivity : AppCompatActivity() {
         val extras = intent.extras
 
         if (extras == null) {
-            id=null
+            id = null
         } else {
             id = extras.getString("id")
         }
@@ -38,15 +42,20 @@ class HeroActivity : AppCompatActivity() {
         binding.imageview
 
 
-        Log.d("PARA_ID","${id}")
+        Log.d("PARA_ID", "${id}")
 
         viewModel = ViewModelProvider(this).get(HeroViewModel::class.java)
 
-        viewModel.heroDetail.observe(this,{
+        viewModel.heroDetail.observe(this, {
             it.data?.let { it1 -> setDetailHero(it1.results) }
         })
 
-        viewModel.getDetailHero(id!!.toInt())
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO){
+                viewModel.getDetailHero(id!!.toInt())
+            }
+        }
+
 
     }
     fun setDetailHero(hero:List<Character>){
