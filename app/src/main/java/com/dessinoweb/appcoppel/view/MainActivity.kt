@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         /*
             En el caso de Marvel Api el limite para la characters es de 100
-            en caso contrario manda error, no se pueden requerir mas heroes en este caso
+            en caso contrario manda error, no se pueden requerir mas heroes 
             https://gateway.marvel.com/v1/public/comics?limit=100
         */
         binding.recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener(){
